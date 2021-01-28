@@ -14,37 +14,60 @@ public:
             intervals.push_back(newInterval);
             return intervals;
         }
-        vector<vector<int>>& results;
+        vector<vector<int>> results;
         bool bInserted(false);
         for (auto it = intervals.begin(); it != intervals.end(); ++it)
         {
-            if (!bInserted && newInterval.back() < intervals.front())
+            if (!bInserted)
             {
-                results.push_back(newInterval);
-                bInserted = true;
-                results.insert(results.end(), it, intervals.end());
-                break;
-            }
-            if (it->front() <= newInterval.back() && it->back() >= newInterval.front())
-            {
-                if (it->front() <= newInterval.front() &&
-                    it->back() >= newInterval.back())
+                if (newInterval.back() < it->front())
                 {
+                    results.push_back(newInterval);
                     bInserted = true;
                     results.insert(results.end(), it, intervals.end());
                     break;
                 }
-                if (newInterval.front() < it->front())
+
+                if (it->front() <= newInterval.back() && it->back() >= newInterval.front())
                 {
-                    bInserted = true;
-                    it->front() = newInterval.front();
-                }
-                if (newInterval.back() > it->back())
-                {
-                    bInserted = true;
-                    it->back() = newInterval.back();
+                    if (it->front() <= newInterval.front() &&
+                        it->back() >= newInterval.back())
+                    {
+                        bInserted = true;
+                        results.insert(results.end(), it, intervals.end());
+                        break;
+                    }
+                    if (newInterval.front() < it->front())
+                    {
+                        bInserted = true;
+                        it->front() = newInterval.front();
+                        results.push_back(*it);
+                        newInterval = *it;
+                    }
+                    if (newInterval.back() > it->back())
+                    {
+                        bInserted = true;
+                        it->back() = newInterval.back();
+                        results.push_back(*it);
+                        newInterval = *it;
+                    }
                 }
             }
+            else
+            {
+                if (it->front() > newInterval.back())
+                {
+                    results.insert(results.end(), it, intervals.end());
+                    break;
+                }
+
+                if (it->front() <= newInterval.back() && it->back() >= newInterval.front())
+                {
+
+                }
+
+            }
+            
         }
         std::cout << bInserted << std::endl;
         for (const auto interval : intervals)
@@ -96,6 +119,14 @@ public:
 int main()
 {
     std::cout << "Hello World!\n";
+    Solution solution;
+    std::vector<std::vector<int>> intervals{ {1, 2}, { 3, 4 }, { 5, 6 }};
+    std::vector<int> newInterval{0, 2000};
+    auto results = solution.insert(intervals, newInterval);
+    for (const auto result : results)
+    {
+        std::cout << "[" << result.front() << "," << result.back() << "]" << std::endl;
+    }
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

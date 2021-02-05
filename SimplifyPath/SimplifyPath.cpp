@@ -9,17 +9,18 @@ using namespace std;
 class Solution {
     string SubPath(string& path)
     {
+        ShellSlash(path);
         auto it = path.find_first_of('/');
         string subpath;
         if (it != string::npos)
         {
-            path = path.substr(it);
             subpath = path.substr(0, it);
+            path = path.substr(it);
         }
         else
         {
-            subpath
-                path = "";
+            subpath = path;
+            path = "";
         }
         return subpath;
     }
@@ -39,7 +40,6 @@ class Solution {
 public:
     string simplifyPath(string path) {
         vector<string> paths;
-        ShellSlash(path);
         for (string subStr = SubPath(path); !subStr.empty(); subStr = SubPath(path))
         {
             std::cout << subStr << std::endl;
@@ -49,26 +49,32 @@ public:
             {
                 continue;
             }
-            if (subStr == ".." && paths.size())
+            if (subStr == "..")
             {
-                paths.pop_back();
+                if (paths.size())
+                {
+                    paths.pop_back();
+                }
                 continue;
             }
             paths.push_back(subStr);
         }
 
-        string result = "/";
+        string result;
         for (const auto& subPath : paths)
         {
+            result += '/';
             result += subPath;
         }
-        return result;
+ 
+        return paths.empty() ? "/" : result;
     }
 };
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    Solution solution;
+    std::cout << solution.simplifyPath("/Data/VVTK/") << std::endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

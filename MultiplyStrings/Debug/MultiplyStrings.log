@@ -1,4 +1,0 @@
-﻿  MultiplyStrings.cpp
-D:\BINWORKs\CPP\Test\MultiplyStrings\MultiplyStrings.cpp(61,27): warning C4018: '<': signed/unsigned mismatch
-D:\BINWORKs\CPP\Test\MultiplyStrings\MultiplyStrings.cpp(66,35): warning C4018: '>': signed/unsigned mismatch
-  MultiplyStrings.vcxproj -> D:\BINWORKs\CPP\Test\Debug\MultiplyStrings.exe

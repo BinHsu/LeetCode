@@ -4,77 +4,90 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <gtest/gtest.h>
+#include "../Sqrt/test.hpp"
 using namespace std;
-
-class Solution {
-    string SubPath(string& path)
-    {
-        ShellSlash(path);
-        auto it = path.find_first_of('/');
-        string subpath;
-        if (it != string::npos)
+namespace SimplifyPath {
+    class Solution {
+        string SubPath(string& path)
         {
-            subpath = path.substr(0, it);
-            path = path.substr(it);
-        }
-        else
-        {
-            subpath = path;
-            path = "";
-        }
-        return subpath;
-    }
-
-    void ShellSlash(string& path)
-    {
-        for (auto it = path.begin(); it != path.end();)
-        {
-            if (*it == '/')
+            ShellSlash(path);
+            auto it = path.find_first_of('/');
+            string subpath;
+            if (it != string::npos)
             {
-                it = path.erase(it);
-                continue;
+                subpath = path.substr(0, it);
+                path = path.substr(it);
             }
-            break;
-        }
-    }
-public:
-    string simplifyPath(string path) {
-        vector<string> paths;
-        for (string subStr = SubPath(path); !subStr.empty(); subStr = SubPath(path))
-        {
-            std::cout << subStr << std::endl;
-            std::cout << path << std::endl;
-            ShellSlash(subStr);
-            if (subStr == ".")
+            else
             {
-                continue;
+                subpath = path;
+                path = "";
             }
-            if (subStr == "..")
+            return subpath;
+        }
+
+        void ShellSlash(string& path)
+        {
+            for (auto it = path.begin(); it != path.end();)
             {
-                if (paths.size())
+                if (*it == '/')
                 {
-                    paths.pop_back();
+                    it = path.erase(it);
+                    continue;
                 }
-                continue;
+                break;
             }
-            paths.push_back(subStr);
         }
+    public:
+        string simplifyPath(string path) {
+            vector<string> paths;
+            for (string subStr = SubPath(path); !subStr.empty(); subStr = SubPath(path))
+            {
+                std::cout << subStr << std::endl;
+                std::cout << path << std::endl;
+                ShellSlash(subStr);
+                if (subStr == ".")
+                {
+                    continue;
+                }
+                if (subStr == "..")
+                {
+                    if (paths.size())
+                    {
+                        paths.pop_back();
+                    }
+                    continue;
+                }
+                paths.push_back(subStr);
+            }
 
-        string result;
-        for (const auto& subPath : paths)
-        {
-            result += '/';
-            result += subPath;
+            string result;
+            for (const auto& subPath : paths)
+            {
+                result += '/';
+                result += subPath;
+            }
+
+            return paths.empty() ? "/" : result;
         }
- 
-        return paths.empty() ? "/" : result;
-    }
+    };
 };
 
-int main()
+TEST(simplifyPath, normal)
 {
-    Solution solution;
+    std::string test("/Data/VVTK/");
+    SimplifyPath::Solution solution;
+    const std::string answer("/Data/VVTK");
+    EXPECT_EQ(answer, solution.simplifyPath(test));
+}
+
+int main(int argc, char* argv[])
+{
+    SimplifyPath::Solution solution;
     std::cout << solution.simplifyPath("/Data/VVTK/") << std::endl;
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

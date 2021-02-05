@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="SimplifyPath.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Sqrt\test.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

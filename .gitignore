@@ -1,0 +1,8 @@
+*.testlog
+*.manifest
+*.ipch
+*.tlog
+FriendIsConnected.Build.CppClean.log
+*.recipe
+*.log
+*.obj

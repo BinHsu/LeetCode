@@ -6,3 +6,4 @@ FriendIsConnected.Build.CppClean.log
 *.recipe
 *.log
 *.obj
+x64

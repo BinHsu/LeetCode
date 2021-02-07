@@ -7,3 +7,4 @@ FriendIsConnected.Build.CppClean.log
 *.log
 *.obj
 x64
+*.user

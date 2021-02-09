@@ -15,7 +15,6 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
  
-
 class Solution {
     bool myValidBST(TreeNode* root, list<int> roots)
     {
@@ -59,20 +58,26 @@ class Solution {
         return myValidBST(root->left, roots) && myValidBST(root->right, roots);
     }
 
-    bool isValid(TreeNode* root)
+    std::list<int> results_;
+
+    void visit(TreeNode* root)
     {
         if (root == NULL)
         {
-            return true;
-        }
-        std::list<int> results;
-        for (;;)
-        {
-
+            return;
         }
 
-        auto latest = 0;
-        for (const auto result : results)
+        visit(root->left);
+        results_.push_back(root->val);
+        visit(root->right);
+    }
+
+    bool isValid(TreeNode* root)
+    {
+        visit(root);
+
+        auto latest = int64_t(results_.front()) - 1;
+        for (const auto result : results_)
         {
             if (result <= latest)
             {
@@ -85,9 +90,14 @@ class Solution {
 
 public:
     bool isValidBST(TreeNode* root) {
+        if (!root)
+        {
+            return true;
+        }
         return isValid(root);
     }
 };
+ 
 int main()
 {
     std::cout << "Hello World!\n";

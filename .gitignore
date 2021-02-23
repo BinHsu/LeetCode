@@ -9,3 +9,4 @@ FriendIsConnected.Build.CppClean.log
 x64
 *.user
 .vs
+.vs/Test/v16/.suo
